@@ -10,7 +10,7 @@ router.post('/login', function (req, res, next) {
 	.then(function (user) {
 		if (!user) throw HttpError(401);
 		req.login(user, function () {
-			res.json(user);
+			res.json({ id: user._id, isAdmin: user.isAdmin});
 		});
 	})
 	.then(null, next);
@@ -20,14 +20,14 @@ router.post('/signup', function (req, res, next) {
 	User.create(req.body)
 	.then(function (user) {
 		req.login(user, function () {
-			res.status(201).json(user);
+			res.status(201).json({ id: user._id, isAdmin: user.isAdmin});
 		});
 	})
 	.then(null, next);
 });
 
 router.get('/me', function (req, res, next) {
-	res.json(req.user);
+	res.json(req.user._id);
 });
 
 router.delete('/me', function (req, res, next) {

@@ -1,10 +1,10 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var Promise = require('bluebird'); 
+var Promise = require('bluebird');
 Promise.promisifyAll(mongoose);
-
-var databaseURI = 'mongodb://localhost:27017/auther';
+var keys = require('../node_modules/keys.js');
+var databaseURI = keys.databaseURI;
 
 var db = mongoose.connect(databaseURI).connection;
 

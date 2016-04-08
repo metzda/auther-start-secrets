@@ -10,6 +10,7 @@ router.param('id', function (req, res, next, id) {
 	User.findById(id).exec()
 	.then(function (user) {
 		if (!user) throw HttpError(404);
+		delete user.password;
 		req.requestedUser = user;
 		next();
 	})
@@ -19,6 +20,9 @@ router.param('id', function (req, res, next, id) {
 router.get('/', function (req, res, next) {
 	User.find({}).exec()
 	.then(function (users) {
+		users.forEach(function(user) {
+			delete user.password;
+		});
 		res.json(users);
 	})
 	.then(null, next);
